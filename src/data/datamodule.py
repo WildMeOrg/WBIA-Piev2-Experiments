@@ -192,14 +192,13 @@ class DataModule(pl.LightningDataModule):
                 "grayscale",
                 "blur",
                 "center_crop",
-                "pil",
             ],
             type=str,
         )
         parser.add_argument(
             "--eval-transforms",
             nargs="*",
-            default=["resize", "center_crop", "normalize"],
+            default=["resize", "center_crop"],
             type=str,
         )
         parser.add_argument("--num-copies", type=int, default=4)
