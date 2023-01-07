@@ -20,7 +20,7 @@ class GaussianBlur:
         return x
 
 
-def build_transform(transforms_str, image_size):
+def build_transform(transforms_str, image_size, model=None):
     transform_list = []
 
     for tfm in transforms_str:
@@ -66,11 +66,18 @@ def build_transform(transforms_str, image_size):
 
         elif tfm == "normalize":
             continue
+          
+        elif tfm == "pil":
+          continue
 
         else:
             raise ValueError
-
-    transform_list += [transforms.ToTensor()]
+    
+    if "pil" in transforms_str:
+        transform_list += [transforms.ToPILImage()]
+        return transforms.Compose(transform_list)
+    else:
+        transform_list += [transforms.ToTensor()]
 
     if "normalize" in transforms_str:
         transform_list += [transforms.Normalize(mean=MEAN, std=STD)]

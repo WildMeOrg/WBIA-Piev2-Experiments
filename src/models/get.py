@@ -1,7 +1,9 @@
 from .piev2 import PieV2Module
+from .hf_transformer import ViTEmbeddingModule
 
 MODELS = {
     "piev2": PieV2Module,
+    "vit": ViTEmbeddingModule,
 }
 
 

@@ -192,7 +192,7 @@ class DataModule(pl.LightningDataModule):
                 "grayscale",
                 "blur",
                 "center_crop",
-                "normalize",
+                "pil",
             ],
             type=str,
         )
