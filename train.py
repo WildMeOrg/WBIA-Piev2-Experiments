@@ -28,7 +28,10 @@ def main():
 
     trainer = pl.Trainer.from_argparse_args(args)
     
-    trainer.fit(model, datamodule=dm)
+    if args.resume:
+        trainer.fit(model, datamodule=dm, ckpt_path=args.resume)
+    else:
+        trainer.fit(model, datamodule=dm)
 
 
 if __name__ == '__main__':

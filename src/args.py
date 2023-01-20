@@ -16,6 +16,7 @@ def handle_arguments():
     parser.add_argument("--data-type", default="csv", type=str)
     parser.add_argument("--split-type", default="pie", type=str)
     parser.add_argument("--save_dir", default="/content/drive/MyDrive", type=str)
+    parser.add_argument("--resume", default=None, type=str)
 
     args = parser.parse_known_args()[0]
 
