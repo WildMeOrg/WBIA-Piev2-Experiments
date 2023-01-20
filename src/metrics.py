@@ -88,7 +88,7 @@ def validation_stats(scores, labels):
 def get_topk_acc(scores, labels, ks=[1, 5, 10]):
     distmat = 1 - scores
 
-    cmc, m_a_p = eval_onevsall(distmat.cpu().numpy(), labels.cpu().numpy(), max_rank=10)
+    cmc, m_a_p = eval_onevsall(distmat.cpu().numpy(), labels.cpu().numpy(), max_rank=20)
 
     res = []
     for k in ks:

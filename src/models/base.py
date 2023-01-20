@@ -86,13 +86,14 @@ class ResNet50EmbeddingModule(pl.LightningModule):
         self.log("val_dist", pos - neg)
         self.log("val_loss", loss, prog_bar=True)
 
-        (top1, top5, top10), m_a_p = get_topk_acc(simmat, labels)
+        (top1, top5, top10, top20), m_a_p = get_topk_acc(simmat, labels, ks=[1, 5, 10, 20])
         roc_auc, pr_auc = validation_stats(simmat, labels)
 
         self.log("top1", top1, prog_bar=True)
         self.log("top5", top5, prog_bar=True)
         self.log("top10", top10, prog_bar=True)
-        self.log("mAP@R", m_a_p, prog_bar=True)
+        self.log("top20", top10, prog_bar=True)
+        self.log("mAP@R", m_a_p)
         self.log("roc_auc", roc_auc)
         self.log("pr_auc", pr_auc, prog_bar=True)
 
