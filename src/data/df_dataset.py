@@ -1,9 +1,33 @@
 import math
 
+import os.path as osp
 import pandas as pd
 from PIL import Image, ImageOps
 from torch.utils.data import Dataset
 from torchvision.transforms import functional as F
+
+
+def read_image(path):
+    """Reads image from path using ``PIL.Image``.
+    Args:
+        path (str): path to an image.
+    Returns:
+        PIL image
+    """
+    got_img = False
+    if not osp.exists(path):
+        raise IOError('"{}" does not exist'.format(path))
+    while not got_img:
+        try:
+            img = Image.open(path).convert('RGB')
+            got_img = True
+        except IOError:
+            print(
+                'IOError incurred when reading "{}". Will redo. Don\'t worry. Just chill.'.format(
+                    path
+                )
+            )
+    return img
 
 
 def get_labels(data_df):
@@ -35,15 +59,9 @@ class DFDataset(Dataset):
         y = row["y"]
         w = row["w"]
         h = row["h"]
-        theta = row["theta"]
         label = self.labels[idx]
 
-        with open(img_path, "rb") as f:
-            img = ImageOps.exif_transpose(Image.open(f))
-            img.load()
-
-        img = img.crop((x, y, min(x + w, img.width), min(y + h, img.height)))
-        img = img.rotate(math.degrees(theta))
+        img = read_image(img_path)
 
         if self.transform is not None:
             img = self.transform(img)

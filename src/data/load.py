@@ -38,11 +38,6 @@ class CSVLoader(Loader):
     def load_data(self):
         data_df = pd.read_csv(self.data_file)
 
-        if self.data_dir:
-            data_df["image"] = [
-                os.path.join(self.data_dir, im) for im in data_df["image"]
-            ]
-
         return data_df
 
     @staticmethod
