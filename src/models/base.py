@@ -30,6 +30,8 @@ class ResNet50EmbeddingModule(pl.LightningModule):
 
         self.name = name
 
+        self.savedir = kwargs['save_dir']
+
     def forward(self, batch):
         x, _, annot, names = batch
 
@@ -88,9 +90,9 @@ class ResNet50EmbeddingModule(pl.LightningModule):
         roc_auc, pr_auc = validation_stats(simmat, labels)
 
         self.log("top1", top1, prog_bar=True)
-        self.log("top5", top5)
-        self.log("top10", top10)
-        self.log("mAP@R", m_a_p)
+        self.log("top5", top5, prog_bar=True)
+        self.log("top10", top10, prog_bar=True)
+        self.log("mAP@R", m_a_p, prog_bar=True)
         self.log("roc_auc", roc_auc)
         self.log("pr_auc", pr_auc, prog_bar=True)
 
@@ -117,6 +119,7 @@ class ResNet50EmbeddingModule(pl.LightningModule):
                 mode="max",
                 filename="{epoch}-{top1:.2f}",
                 every_n_epochs=2,
+                dirpath=self.savedir
             ),
             FixBase(self.fixbase_epoch),
         ]
