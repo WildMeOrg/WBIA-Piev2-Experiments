@@ -24,7 +24,7 @@ class ViTEmbeddingModule(pl.LightningModule):
 
         self.embedding_dim = embedding_dim
 
-        model_name_or_path = 'google/vit-base-patch16-224-in21k'
+        model_name_or_path = 'facebook/deit-small-patch16-224'
         self.feature_extractor = ViTFeatureExtractor.from_pretrained(model_name_or_path)
         self.model = model = ViTModel.from_pretrained(model_name_or_path)
         self.classifier = nn.Sequential(
@@ -113,9 +113,9 @@ class ViTEmbeddingModule(pl.LightningModule):
         roc_auc, pr_auc = validation_stats(simmat, labels)
 
         self.log("top1", top1, prog_bar=True)
-        self.log("top5", top5)
-        self.log("top10", top10)
-        self.log("mAP@R", m_a_p)
+        self.log("top5", top5, prog_bar=True)
+        self.log("top10", top10, prog_bar=True)
+        self.log("mAP@R", m_a_p, prog_bar=True)
         self.log("roc_auc", roc_auc)
         self.log("pr_auc", pr_auc, prog_bar=True)
 
