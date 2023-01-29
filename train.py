@@ -7,6 +7,8 @@ from src.args import handle_arguments
 from src.data.datamodule import DataModule
 from src.models.get import get_model
 
+import wandb
+from pytorch_lightning.loggers import WandbLogger
 
 def main():
     args = handle_arguments()
@@ -26,13 +28,16 @@ def main():
 
     model = get_model(args.model_type)(num_classes=num_classes, **args.__dict__)
 
-    trainer = pl.Trainer.from_argparse_args(args)
+    wandb_logger = WandbLogger(project='ViT')
+    
+    trainer = pl.Trainer.from_argparse_args(args, logger=wandb_logger)
     
     if args.resume:
         trainer.fit(model, datamodule=dm, ckpt_path=args.resume)
     else:
         trainer.fit(model, datamodule=dm)
 
+    wandb.finish()
 
 if __name__ == '__main__':
     main()
