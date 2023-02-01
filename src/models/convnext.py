@@ -17,7 +17,7 @@ class ConvNextModule(ResNet50EmbeddingModule):
         self.model = models.convnext_tiny(pretrained=True)
 
         self.model.classifier = nn.Sequential(
-            nn.Flatten(start_dim=1, end_dim=-1),,
+            nn.Flatten(start_dim=1, end_dim=-1),
             nn.Linear(self.model.classifier[2].in_features, self.embedding_dim),
             nn.BatchNorm1d(self.embedding_dim),
             nn.ReLU(inplace=True),
