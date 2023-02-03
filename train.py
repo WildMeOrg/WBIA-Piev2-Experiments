@@ -29,6 +29,11 @@ def main():
     model = get_model(args.model_type)(num_classes=num_classes, **args.__dict__)
 
     wandb_logger = WandbLogger(project='ViT')
+    #wandb_logger = WandbLogger(
+    #  project='ViT',
+    #  id='lvx8v465',
+    #  resume='must'
+    #)
     
     trainer = pl.Trainer.from_argparse_args(args, logger=wandb_logger)
     

@@ -5,7 +5,7 @@ import torch
 import torch.nn as nn
 import torch.nn.functional as F
 import torchvision.models as models
-from pytorch_lightning.callbacks import Callback, ModelCheckpoint
+from pytorch_lightning.callbacks import Callback, ModelCheckpoint, LearningRateMonitor
 from src.metrics import (
     avg_pair_score_distances,
     get_topk_acc,
@@ -115,6 +115,9 @@ class ResNet50EmbeddingModule(pl.LightningModule):
 
     def configure_callbacks(self):
         return [
+            LearningRateMonitor(
+              logging_interval="step"
+            ),
             ModelCheckpoint(
                 monitor="top1",
                 mode="max",
